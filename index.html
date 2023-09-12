@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <h1 style="font-family: '', cursive; font-size:xx-large; text-align: center; color: darkgray;">COUNTDOWN  TIMER</h1>
+    <div>
+        <label for="hours" style="font-weight: bold; color: chocolate; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif";>Hours:</label>
+        <input type="number" id="hours" min="0">
+        <label for="minutes" style="font-weight: bold; color: chocolate; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif";>Minutes:</label>
+        <input type="number" id="minutes" min="0">
+        <label for="seconds" style="font-weight: bold; color: chocolate; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif";>Seconds:</label>
+        <input type="number" id="seconds" min="0">
+    </div>
+    <div id="timer">00:00:00</div>
+    <div id="controls">
+        <button onclick="startTimer()" style="background-color:goldenrod; font-family: 'Cookie', cursive; font-style: italic; font-size: xx-large;">Start</button>
+        <button onclick="stopTimer()" style="background-color:goldenrod; font-family: 'Cookie', cursive; font-style: italic; font-size: xx-large;">Stop</button>
+        <button onclick="resetTimer()" style="background-color:goldenrod; font-family: 'Cookie', cursive; font-style: italic; font-size: xx-large;">Reset</button>
+    </div>
+    <script>
+        var timerInterval;
+        var timeInSeconds = 0;
+
+        function startTimer(){
+            var hours = parseInt(document.getElementById("hours").value)||0;
+            var minutes = parseInt(document.getElementById("minutes").value) || 0;
+            var seconds = parseInt(document.getElementById("seconds").value) || 0;
+
+            timeInSeconds = hours * 3600 + minutes * 60 + seconds;
+
+            if (timeInSeconds > 0) {
+                timerInterval = setInterval(updateTimer,1000);
+            }
+        }
+        function stopTimer(){
+            clearInterval(timerInterval);
+        }
+        function resetTimer(){
+            clearInterval(timerInterval);
+            timeInSeconds = 0;
+            document.getElementById("hours").value="";
+            document.getElementById("minutes").value = "";
+            document.getElementById("seconds").value = "";
+            updateTimer();
+        }
+        function updateTimer(){
+            var hours = Math.floor(timeInSeconds / 3600);
+            var minutes= Math.floor((timeInSeconds % 3600)/60);
+            var seconds = Math.floor(timeInSeconds % 60);
+
+            var displayHours = (hours < 10)? "0" + hours : hours;
+            var displayMinutes = (minutes < 10) ? "0" + minutes : minutes;
+            var displaySeconds = (seconds < 10) ? "0" + seconds : seconds;
+
+            document.getElementById("timer").textContent = displayHours + ":" + displayMinutes + ":" + displaySeconds;
+
+            if (timeInSeconds <=0){
+                stopTimer();
+                alert("STOP!!!!")
+            }else{
+                timeInSeconds--;
+            }
+        }
+    </script>
+</body>
+</html>
